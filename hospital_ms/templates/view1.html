@@ -1,0 +1,56 @@
+{% extends 'base.html' %}
+
+{% block content %}
+           <ul class="nav-item">
+                <a class="nav-link" href="{% url 'hospital_app:create' %}">create Admin</a>
+
+                <a class="nav-link" href="{% url 'hospital_app:add_timeslot' %}">Add time slot</a>
+            </ul>
+  <h1>Appointment List with status and History For Super Admin</h1>
+
+<table class="table table-bordered">
+    <thead>
+        <tr>
+            <th>Name</th>
+            <th>Email</th>
+            <th>Phone</th>
+            <th>Place</th>
+            <th>Consulting Doctor</th>
+            <th>Department</th>
+            <th>Date</th>
+            <th>Time Slot</th>
+            <th>Status</th>
+            <th>History</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for i in appointments %}
+        <tr>
+            <td>{{ i.patient_name }}</td>
+            <td>{{ i.patient_email }}</td>
+            <td>{{ i.patient_phone }}</td>
+            <td>{{ i.patient_place }}</td>
+            <td>{{ i.doctor }}</td>
+            <td>{{ i.patient_department }}</td>
+            <td>{{ i.appointment_date }}</td>
+            <td>{{ i.appointment_time }}</td>
+            <td>{{ i.status }}</td>
+            <td>
+                <form method="post" action="{% url 'update_status' i.pk %}">
+                        {% csrf_token %}
+                        <select name="status">
+                            <option value="approved">Approved</option>
+                            <option value="rejected">Rejected</option>
+                            <option value="pending">Pending</option>
+                        </select>
+                        <button type="submit">Update Status</button>
+                </form>
+
+            </td>
+            <td><a href="{% url 'appointment_history' i.id %}">History</a></td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+
+{% endblock %}

@@ -1,0 +1,27 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="container">
+    <center>
+        <h1>Doctors list</h1>
+    </center>
+    <table class="table table-bordered">
+        <thead>
+            <tr>
+                <th>Doctor Name</th>
+                <th>Department</th>
+                <th>Details</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for i in appointments %}
+            <tr>
+                <td>{{ i.doctor_name }}</td>
+                <td>{{ i.doctor_department_fk }}</td>
+                <td><a href="{% url 'department_doctors_app:doctor_detail' i.id %}">Details</a></td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endblock %}

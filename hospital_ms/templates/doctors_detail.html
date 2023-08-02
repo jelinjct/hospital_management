@@ -1,0 +1,20 @@
+{% extends 'base.html' %}
+{%load static %}
+{% block content %}
+
+<div class="container" style="margin-bottom:100px">
+<div class="row">
+        <div class="col-sm-6 mt-5">
+              <img src="{{ de.image.url }}" class="card-img-top" height="600px" width="100%" alt="{{ de.image.url }}">
+        </div>
+        <div class="col-sm-6 mt-5">
+            <div>
+                <h1>{{de.doctor_name}}</h1>
+                <p>{{de.doctor_department_fk}}</p>
+                <h3>Qualification</h3>
+                <p>{{de.qualification}}</p>
+            </div>
+        </div>
+</div>
+</div>
+{% endblock %}
