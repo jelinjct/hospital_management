@@ -15,7 +15,16 @@
 <body>
 <nav class="navbar navbar-expand-lg navbar-light bg-warning">
   <div class="container-fluid">
-    <a class="navbar-brand" href="#"><h3>HOSPITAL MANAGEMENT</h3></a>
+    {% if user.is_authenticated %}
+          {% if user.user_type == 'Super Admin' %}
+              <a class="navbar-brand" href="{% url 'hospital_app:list1' %}"><h3>Hospital Management_home</h3></a>
+
+          {% elif user.user_type == 'Admin' %}
+              <a class="navbar-brand" href="{% url 'hospital_app:list2' %}"><h3>Hospital Management_home</h3></a>
+          {% else %}
+              <a class="navbar-brand" href="{% url 'hospital_app:list2' %}"><h3>Hospital Management_home</h3></a>
+          {% endif %}
+    {% endif %}
 
     <a class="nav-link active" aria-current="page" href="{% url 'department_doctors_app:departmentlist' %}"><h3>Departments</h3></a>
 

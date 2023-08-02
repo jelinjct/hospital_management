@@ -14,11 +14,11 @@
             </tr>
         </thead>
         <tbody>
-            {% for i in appointments %}
+            {% for i in doctorList %}
             <tr>
                 <td>{{ i.doctor_name }}</td>
                 <td>{{ i.doctor_department_fk }}</td>
-                <td><a href="{% url 'department_doctors_app:doctor_detail' i.id %}">Details</a></td>
+                <td><a href="{% url 'department_doctors_app:doctor_detail' i.pk %}">Details</a></td>
             </tr>
             {% endfor %}
         </tbody>

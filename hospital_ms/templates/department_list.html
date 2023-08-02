@@ -12,14 +12,25 @@
                 </tr>
             </thead>
             <tbody>
-                {% for i in appointments %}
+                {% for i in departmentList %}
                 <tr>
                     <td>{{ i.department_name }}</td>
                     <td>{{ i.department_description }}</td>
+                    {% if user.user_type in 'Admin Super Admin' %}
+                         <td>
+                                <a class="nav-link" href="{% url 'department_doctors_app:update' i.pk %}"><h3>Edit</h3></a>
+                         </td>
+                         <td>
+                                <a class="nav-link" href="{% url 'department_doctors_app:delete' i.pk %}"><h3>Delete</h3></a>
+                         </td>
+                    {% endif %}
                 </tr>
                 {% endfor %}
             </tbody>
         </table>
+        {% if user.user_type == 'Super Admin' %}
+          <button class="nav-link btn btn-danger" onclick="location.href='{% url 'department_doctors_app:createdepartment' %}'">Create Department</button>
+        {% endif %}
     </center>
 </div>
 {% endblock %}

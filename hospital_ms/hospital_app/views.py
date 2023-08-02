@@ -40,7 +40,6 @@ class SuperAdminSignupView(CreateView):
         return super().form_valid(form)
 
 
-
 #view to fill appointment form by user
 class AppointmentFormView(FormView):
     form_class = AppointmentForm
@@ -48,7 +47,6 @@ class AppointmentFormView(FormView):
 
     def form_valid(self, form):
             user = form.save(commit=False)
-            user.user_type = 'Users'  # Set the user_type to 'User'
             user.save()
             return super().form_valid(form)
 

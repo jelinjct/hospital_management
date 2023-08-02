@@ -54,7 +54,7 @@ class AppointmentForm(forms.ModelForm):
 class TimeSlotForm(forms.ModelForm):
     class Meta:
         model = TimeSlot
-        fields = ['day_of_week', 'start_time', 'end_time']
+        fields = [ 'start_time', 'end_time']
 
     def clean(self):
         cleaned_data = super().clean()
