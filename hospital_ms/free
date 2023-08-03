@@ -1,0 +1,13 @@
+hospital_app/customeuser
+    patient_name = models.CharField(max_length=100, blank=False, null=False)
+    patient_place = models.CharField(max_length=100, blank=False, null=False)
+    patient_phone = models.CharField(max_length=100, blank=False, null=False)
+    patient_email = models.EmailField(max_length=255, blank=False)
+    patient_password = models.CharField(max_length=128, verbose_name='password', blank=True, null=True)
+    patient_department = models.CharField(max_length=200, choices=[('ortho', 'orthopedics'), ('cardio', 'Cardiology'),
+                                                                   ('derma', 'Dermatology'), ('Gynec', 'Gynecology'), ])
+
+
+    admin_name= models.CharField(max_length=100, blank=False, null=False)
+    admin_email= models.EmailField(max_length=255, blank=False)
+    admin_password= models.CharField(max_length=128, verbose_name='password', blank=True, null=True)

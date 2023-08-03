@@ -1,7 +1,7 @@
 from django.shortcuts import render,redirect
 from django.urls import reverse
 from hospital_app.models import CustomUser,Appointment, History, TimeSlot
-from hospital_app.forms import UserLoginForm,AppointmentForm, CustomUserCreationForm,TimeSlotForm
+from hospital_app.forms import UserLoginForm,AppointmentForm, CustomUserCreationForm,TimeSlotForm,AppointmentStatusForm
 from django.shortcuts import get_object_or_404
 from django.contrib.auth import authenticate, login, logout
 from django.views.generic import TemplateView,FormView ,ListView,CreateView,DetailView,DeleteView,UpdateView
@@ -15,6 +15,8 @@ from django.http import HttpResponse
 
 class HomeView(TemplateView):
     template_name = 'home.html'
+class AppointmentViewListForPatients(TemplateView):
+    template_name = 'appointment_list_view_users.html'
 
 #view to signup for user
 class UserSignupView(CreateView):
@@ -41,16 +43,17 @@ class SuperAdminSignupView(CreateView):
 
 
 #view to fill appointment form by user
-class AppointmentFormView(FormView):
+class AppointmentFormView( LoginRequiredMixin, UserPassesTestMixin, CreateView):
     form_class = AppointmentForm
     template_name = 'booking.html'
+    success_url = reverse_lazy('hospital_app:list3')
+    login_url = '/login/'
+    permission_denied_message = 'Unauthorized Access'
 
+    def test_func(self):
+        return self.request.user.user_type in ['User']
     def form_valid(self, form):
-            user = form.save(commit=False)
-            user.save()
-            return super().form_valid(form)
-
-
+        return super().form_valid(form)
 
 # to see list of appointments for superadmin(has create,update,delete  option)
 class AppointmentListView1(LoginRequiredMixin, ListView):
@@ -90,8 +93,26 @@ class TimeSlotCreateView(CreateView):
     success_url = reverse_lazy('hospital_app:list1')
 
     def form_valid(self, form):
+        response = super().form_valid(form)
+        return response
 
-        return super().form_valid(form)
+
+class AppointmentStatusUpdateView(LoginRequiredMixin, UserPassesTestMixin, FormView):
+    form_class = AppointmentStatusForm
+    template_name = 'update.html'
+    success_url = reverse_lazy('hospital_app:list1')
+
+    def test_func(self):
+        user_type = self.request.user.user_type
+        return user_type in ['Admin', 'Super Admin']
+
+    def form_valid(self, form):
+        appointment_id = self.kwargs['appointment_id']
+        status = form.cleaned_data['status']
+        appointment = Appointment.objects.get(pk=appointment_id)
+        appointment.status = status
+        appointment.save()
+        return redirect(self.success_url)
 
 
 
@@ -102,14 +123,19 @@ class AppointmentListView2(LoginRequiredMixin, ListView):
     context_object_name = 'appointments'
     login_url = '/login/'
 
-# to see list of appointments for patients(has booking option)
+# to see  appointments options for patients(has booking option)
 class AppointmentListView3(LoginRequiredMixin, ListView):
     model = Appointment
     template_name = 'view3.html'
     context_object_name = 'appointments'
     login_url = '/login/'
 
-
+#to see list of appointments , view made for patients
+class AppointmentListView4(LoginRequiredMixin, ListView):
+    model = Appointment
+    template_name = 'appointment_list_view_users.html'
+    context_object_name = 'appointments'
+    login_url = '/login/'
 
 
 class UserLoginView(FormView):
@@ -125,15 +151,15 @@ class UserLoginView(FormView):
             if user.user_type == 'User':
                 login(self.request, user)
                 list3_url = reverse('hospital_app:list3')
-                return redirect(list3_url)  # Redirect to Vehiclelist1View
+                return redirect(list3_url)  # Redirect to Patient Home
             elif user.user_type == 'Admin':
                 login(self.request, user)
                 list2_url = reverse('hospital_app:list2')
-                return redirect(list2_url)  # Redirect to VehicleList3View
+                return redirect(list2_url)  # Redirect to admin home
             elif user.user_type == 'Super Admin':
                 login(self.request, user)
                 list1_url = reverse('hospital_app:list1')
-                return redirect(list1_url)  # Redirect to VehicleCreateView
+                return redirect(list1_url)  # Redirect to Super Admin home
 
         return HttpResponse("Invalid login details.....")
 

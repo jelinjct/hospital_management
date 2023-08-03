@@ -23,6 +23,7 @@ class AppointmentForm(forms.ModelForm):
     class Meta:
         model = Appointment
         fields = (
+            'TokenNo',
             'patient_name',
             'patient_email',
             'patient_phone',
@@ -65,3 +66,12 @@ class TimeSlotForm(forms.ModelForm):
             raise forms.ValidationError("End time must be after start time.")
 
         return cleaned_data
+
+
+class AppointmentStatusForm(forms.ModelForm):
+    class Meta:
+        model = Appointment
+        fields = ['status']
+        widgets = {
+            'status': forms.Select(attrs={'class': 'form-control'}),
+        }

@@ -1,14 +1,7 @@
 {% extends 'base.html' %}
 
 {% block content %}
-           <ul class="nav-item">
-                <a class="nav-link" href="{% url 'hospital_app:create' %}">create Admin</a>
-
-                <a class="nav-link" href="{% url 'hospital_app:add_timeslot' %}">Add time slot</a>
-
-                <a class="nav-link" href="{% url 'department_doctors_app:createdoctor' %}">create doctor</a>
-            </ul>
-  <h1>Appointment List with status and History For Super Admin</h1>
+  <h1>Appointment List with status For Patients </h1>
 
 <table class="table table-bordered">
     <thead>
@@ -22,7 +15,7 @@
             <th>Date</th>
             <th>Time Slot</th>
             <th>Status</th>
-            <th>History</th>
+
         </tr>
     </thead>
     <tbody>
@@ -36,18 +29,14 @@
             <td>{{ i.patient_department }}</td>
             <td>{{ i.appointment_date }}</td>
             <td>{{ i.appointment_time }}</td>
-            <td>
-                <form method="post" action="{% url 'hospital_app:update_status' i.pk %}">
-                  {% csrf_token %}
-                  {{ form }}
-                  <button type="submit">Update Status</button>
-                </form>
+            <td>{{ i.get_status_display }}</td>
 
-            </td>
-            <td><a href="{% url 'hospital_app:ahistory' i.pk %}">History</a></td>
         </tr>
         {% endfor %}
     </tbody>
 </table>
 
 {% endblock %}
+
+
+

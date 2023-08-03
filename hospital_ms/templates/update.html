@@ -1,0 +1,50 @@
+{% extends 'base.html' %}
+
+{% block content %}
+  <h1>Appointment List with Status </h1>
+
+  <table class="table table-bordered">
+    <thead>
+      <tr>
+        <th>Name</th>
+        <th>Email</th>
+        <th>Phone</th>
+        <th>Place</th>
+        <th>Consulting Doctor</th>
+        <th>Department</th>
+        <th>Date</th>
+        <th>Time Slot</th>
+        <th>Status</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for i in appointments %}
+      <tr>
+        <td>{{ i.patient_name }}</td>
+        <td>{{ i.patient_email }}</td>
+        <td>{{ i.patient_phone }}</td>
+        <td>{{ i.patient_place }}</td>
+        <td>{{ i.doctor }}</td>
+        <td>{{ i.patient_department }}</td>
+        <td>{{ i.appointment_date }}</td>
+        <td>{{ i.appointment_time }}</td>
+        <td>
+          { % if user.user_type in 'Admin Super Admin ' %}
+            <form method="post" action="{% url 'hospital_app:update_status' i.pk %}">
+              {% csrf_token %}
+              {{ form }}
+              <button type="submit">Update Status</button>
+            </form>
+          {% else %}
+            {{ i.get_status_display }}
+          {% endif %}
+        </td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+
+{% endblock %}
+
+
+

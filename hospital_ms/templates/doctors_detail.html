@@ -6,6 +6,8 @@
   <p><strong>Doctor Name:</strong> {{ doctorr.doctor_name }}</p>
   <p><strong>Doctor Department:</strong> {{ doctorr.doctor_department }}</p>
   <p><strong>Doctor's Qualification:</strong> {{ doctorr.qualification }}</p>
-  <p><strong>Doctors Image:</strong> {{ doctorr.photo}}</p>
+  <p><strong>Doctors Image:</strong>
+    <img src="{{ doctorr.photo.url }}"  alt="{{ doctorr.doctor_name }}'s photo" style="max-width: 300px; max-height: 300px";>
+  </p>
 </center>
 {% endblock %}

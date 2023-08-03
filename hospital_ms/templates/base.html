@@ -17,12 +17,12 @@
   <div class="container-fluid">
     {% if user.is_authenticated %}
           {% if user.user_type == 'Super Admin' %}
-              <a class="navbar-brand" href="{% url 'hospital_app:list1' %}"><h3>Hospital Management_home</h3></a>
+              <a class="navbar-brand" href="{% url 'hospital_app:list1' %}"><h3>Hospital Super_home</h3></a>
 
           {% elif user.user_type == 'Admin' %}
-              <a class="navbar-brand" href="{% url 'hospital_app:list2' %}"><h3>Hospital Management_home</h3></a>
+              <a class="navbar-brand" href="{% url 'hospital_app:list2' %}"><h3>Hospital Admin_home</h3></a>
           {% else %}
-              <a class="navbar-brand" href="{% url 'hospital_app:list2' %}"><h3>Hospital Management_home</h3></a>
+              <a class="navbar-brand" href="{% url 'hospital_app:list3' %}"><h3>Hospital User_home</h3></a>
           {% endif %}
     {% endif %}
 
