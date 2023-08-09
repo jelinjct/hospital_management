@@ -18,7 +18,7 @@
       </tr>
     </thead>
     <tbody>
-      {% for i in appointments %}
+    {% for i in appointments %}
       <tr>
         <td>{{ i.patient_name }}</td>
         <td>{{ i.patient_email }}</td>
@@ -29,18 +29,18 @@
         <td>{{ i.appointment_date }}</td>
         <td>{{ i.appointment_time }}</td>
         <td>
-          { % if user.user_type in 'Admin Super Admin ' %}
-            <form method="post" action="{% url 'hospital_app:update_status' i.pk %}">
-              {% csrf_token %}
-              {{ form }}
-              <button type="submit">Update Status</button>
-            </form>
+          {% if user.user_type in 'Admin Super Admin ' %}
+              <form method="post" action="{% url 'hospital_app:update_status' i.pk %}">
+                {% csrf_token %}
+                {{ form }}
+                <button type="submit">Update Status</button>
+              </form>
           {% else %}
             {{ i.get_status_display }}
           {% endif %}
         </td>
       </tr>
-      {% endfor %}
+    {% endfor %}
     </tbody>
   </table>
 

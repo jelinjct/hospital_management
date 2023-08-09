@@ -47,8 +47,6 @@ class Appointment(models.Model):
         return str(self.TokenNo)
 
 
-
-
 class History(models.Model):
     date = models.DateField()
     time = models.TimeField()
@@ -57,6 +55,7 @@ class History(models.Model):
 
     def __str__(self):
         return self.admin
+
 
 
 class TimeSlot(models.Model):

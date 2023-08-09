@@ -1,5 +1,8 @@
+from typing import Any
+
 from django.shortcuts import render,redirect
 from django.urls import reverse
+
 from hospital_app.models import CustomUser,Appointment, History, TimeSlot
 from hospital_app.forms import UserLoginForm,AppointmentForm, CustomUserCreationForm,TimeSlotForm,AppointmentStatusForm
 from django.shortcuts import get_object_or_404
@@ -63,15 +66,18 @@ class AppointmentListView1(LoginRequiredMixin, ListView):
     login_url = '/login/'
 
 
-# view to history (only for superadmin)
-class AppointmentHistoryView(DetailView):
-    model = History
-    template_name = 'appointment_history.html'
-    context_object_name='history'
-    login_url = '/login/'
+from django.views.generic import DetailView
+from .models import History
 
-    def get_success_url(self):
-        return reverse_lazy('hospital_app:ahistory', kwargs={'pk': self.object.pk})
+class AppointmentHistoryView(DetailView):
+    model = History  # This specifies the model to use
+    template_name = 'appointment_history.html'  # Specify the template name
+    context_object_name = 'history'  # Specify the context variable name
+
+    def get_object(self, queryset=None):
+        pk = self.kwargs.get('pk')
+        return get_object_or_404(History, pk=pk)
+
 
 # view to create admin
 class AdminCreateView(CreateView):
@@ -99,7 +105,7 @@ class TimeSlotCreateView(CreateView):
 
 class AppointmentStatusUpdateView(LoginRequiredMixin, UserPassesTestMixin, FormView):
     form_class = AppointmentStatusForm
-    template_name = 'update.html'
+    template_name = 'update_status.html'
     success_url = reverse_lazy('hospital_app:list1')
 
     def test_func(self):
@@ -131,7 +137,7 @@ class AppointmentListView3(LoginRequiredMixin, ListView):
     login_url = '/login/'
 
 #to see list of appointments , view made for patients
-class AppointmentListView4(LoginRequiredMixin, ListView):
+class AppointmentViewListForPatients(LoginRequiredMixin, ListView):
     model = Appointment
     template_name = 'appointment_list_view_users.html'
     context_object_name = 'appointments'

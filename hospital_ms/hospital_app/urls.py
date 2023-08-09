@@ -16,10 +16,10 @@ urlpatterns = [
     path('appointmentlist3', views.AppointmentListView3.as_view(), name='list3'),
     path('appointmentlistpatients', views.AppointmentViewListForPatients.as_view(), name='list4'),
 
-    path('update_status/<int:pk>/', views.AppointmentStatusUpdateView.as_view(), name='update_status'),
-
+    path('update_status/<int:appointment_id>/', views.AppointmentStatusUpdateView.as_view(), name='update_status'),
 
     path('appointmenthistory/<int:pk>/', views.AppointmentHistoryView.as_view(), name='ahistory'),
+
     path('timeslot/', views.TimeSlotCreateView.as_view(), name='add_timeslot'),
     path('createadmin', views.AdminCreateView.as_view(), name='create'),
 

@@ -36,6 +36,7 @@
             <td>{{ i.patient_department }}</td>
             <td>{{ i.appointment_date }}</td>
             <td>{{ i.appointment_time }}</td>
+            <td>{{ i.status }}</td>
             <td>
                 <form method="post" action="{% url 'hospital_app:update_status' i.pk %}">
                   {% csrf_token %}
